@@ -124,19 +124,17 @@ $array_info_task = [
 
                 <table class="tasks">
                     <?php
-                    $i = 0;
-                    while ($i < count($array_info_task)) {
-                        if($array_info_task[$i]['status'] == true && $show_complete_tasks == 0) {
+                    foreach ($array_info_task as $value) {
+                        if($value['status'] == true && $show_complete_tasks == 0) {
                             continue;
                         }
-                        $value = $i+1;
                         ?>
                         <tr class="tasks__item task">
                             <td class='task__select <?php
-                            if($array_info_task[$i]['status'] == true):?>task--completed<?php endif; ?>'>
+                            if($value['status'] == true):?>task--completed<?php endif; ?>'>
                                 <label class="checkbox task__checkbox">
-                                    <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value='<?= $value?>'>
-                                    <span class="checkbox__text"><?=$array_info_task[$i]['task']?></span>
+                                    <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                                    <span class="checkbox__text"><?=$value['task']?></span>
                                 </label>
                             </td>
 
@@ -144,10 +142,9 @@ $array_info_task = [
                                 <a class="download-link" href="#">Home.psd</a>
                             </td>
 
-                            <td class="task__date"><?=$array_info_task[$i]['date_start']?></td>
+                            <td class="task__date"><?=$value['date_start']?></td>
                         </tr>
                         <?php
-                        $i++;
                     }
                     ?>
                     <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
