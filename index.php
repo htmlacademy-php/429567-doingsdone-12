@@ -1,4 +1,14 @@
 <?php
+function countTask ($arrayCountTask, $name) {
+    $index = 0;
+    foreach ($arrayCountTask as $task) {
+        if($task['category'] == $name) {
+            $index++;
+        }
+    }
+    return $index;
+}
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 $array_projects = ['Входящие','Учеба','Работа','Домашние дела', 'Авто'];
@@ -6,37 +16,37 @@ $array_info_task = [
     [
         'task' => 'Собеседование в IT компании',
         'date_start' => '01.12.2019',
-        'catefory' => 'Работа',
+        'category' => 'Работа',
         'status' => false
     ],
     [
         'task' =>'Выполнить тестовое задание',
         'date_start' => '25.12.2019',
-        'catefory' => 'Работа',
+        'category' => 'Работа',
         'status' => false
     ],
     [
         'task' => 'Сделать задание первого раздела',
         'date_start' => '25.12.2019',
-        'catefory' => 'Учеба',
+        'category' => 'Учеба',
         'status' => true
     ],
     [
         'task' =>'Встреча с другом',
         'date_start' => '22.12.2019',
-        'catefory' => 'Входящие',
+        'category' => 'Входящие',
         'status' => false
     ],
     [
         'task' => 'Купить корм для кота',
         'date_start' => null,
-        'catefory' => 'Домашние дела',
+        'category' => 'Домашние дела',
         'status' => false
     ],
     [
         'task' => 'Заказать пиццу',
         'date_start' => null,
-        'catefory' => 'Домашние дела',
+        'category' => 'Домашние дела',
         'status' => false
     ]
 ];
@@ -86,7 +96,7 @@ $array_info_task = [
                         while($index < count($array_projects)) {?>
                         <li class="main-navigation__list-item">
                             <a class="main-navigation__list-item-link" href="#"><?= $array_projects[$index]?>></a>
-                            <span class="main-navigation__list-item-count">0</span>
+                            <span class="main-navigation__list-item-count"><?= countTask($array_info_task, $array_projects[$index])?></span>
                         </li>
                         <?php
                         $index++;
