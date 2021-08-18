@@ -1,15 +1,6 @@
 <?php
-function countTask ($arrayCountTask, $name) {
-    $index = 0;
-    foreach ($arrayCountTask as $task) {
-        if($task['category'] == $name) {
-            $index++;
-        }
-    }
-    return $index;
-}
+    require_once ('functions.php');
 ?>
-
 <section class='content__side'>
     <h2 class='content__side-heading'>Проекты</h2>
 
@@ -63,7 +54,14 @@ function countTask ($arrayCountTask, $name) {
                 continue;
             }
             ?>
-            <tr class="tasks__item task">
+            <?php $datestart = dateLeft ($value['date_start']);
+            if ($datestart == false):?>
+                <tr class="tasks__item task">
+            <?php elseif ($datestart <= 86400):?>
+                <tr class="tasks__item task task--important">
+            <?php  else:?>
+                <tr class="tasks__item task">
+            <?php endif;  ?>
                 <td class='task__select <?php
                 if($value['status'] == true):?>task--completed<?php endif; ?>'>
                     <label class="checkbox task__checkbox">
@@ -75,8 +73,7 @@ function countTask ($arrayCountTask, $name) {
                 <td class="task__file">
                     <a class="download-link" href="#">Home.psd</a>
                 </td>
-
-                <td class="task__date"><?= htmlspecialchars($value['date_start']);?></td>
+                    <td class="task__date "><?= htmlspecialchars($value['date_start']);?></td>
             </tr>
             <?php
         }
