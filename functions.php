@@ -12,10 +12,13 @@ function countTask($arrayCountTask, $name)
 }
 
 function dateLeft($dateInsert) {
-    $todayFormat = strtotime("now");
+    $todayFormat = new DateTime("now");
+
     if ($dateInsert != null) {
-        $datestart = strtotime($dateInsert);
-        return $todayFormat-$datestart;
+        $datestart = new DateTime($dateInsert);
+        $interval = date_diff($todayFormat, $datestart);
+        $result = $interval->format("%R%a")*24 + $interval->format("%R%h");
+        return $result;
     }
     else
         return false;

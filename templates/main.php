@@ -1,6 +1,3 @@
-<?php
-    require_once ('functions.php');
-?>
 <section class='content__side'>
     <h2 class='content__side-heading'>Проекты</h2>
 
@@ -10,7 +7,7 @@
             $index = 0;
             while($index < count($array_projects)) {?>
             <li class="main-navigation__list-item">
-                <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($array_projects[$index]);?>></a>
+                <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($array_projects[$index]);?></a>
                 <span class="main-navigation__list-item-count"><?= countTask($array_info_task, $array_projects[$index]);?></span>
             </li>
             <?php
@@ -53,29 +50,23 @@
             if($value['status'] == true && $show_complete_tasks == 0) {
                 continue;
             }
-            ?>
-            <?php $datestart = dateLeft ($value['date_start']);
-            if ($datestart == false):?>
-                <tr class="tasks__item task">
-            <?php elseif ($datestart <= 86400):?>
-                <tr class="tasks__item task task--important">
-            <?php  else:?>
-                <tr class="tasks__item task">
-            <?php endif;  ?>
-                <td class='task__select <?php
-                if($value['status'] == true):?>task--completed<?php endif; ?>'>
-                    <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                        <span class="checkbox__text"><?= htmlspecialchars($value['task']);?></span>
-                    </label>
-                </td>
+            $datestart = dateLeft ($value['date_start']);
 
-                <td class="task__file">
-                    <a class="download-link" href="#">Home.psd</a>
-                </td>
-                    <td class="task__date "><?= htmlspecialchars($value['date_start']);?></td>
-            </tr>
-            <?php
+        ?>
+        <tr class="tasks__item task <?php if ($datestart !=false && $datestart < $timeleft):?>task--important<?php endif; ?>">
+            <td class='task__select <?php if($value['status'] == true):?>task--completed<?php endif; ?>'>
+                <label class="checkbox task__checkbox">
+                    <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                    <span class="checkbox__text"><?= htmlspecialchars($value['task']);?></span>
+                </label>
+            </td>
+
+            <td class="task__file">
+                <a class="download-link" href="#">Home.psd</a>
+            </td>
+                <td class="task__date "><?= htmlspecialchars($value['date_start']);?></td>
+        </tr>
+        <?php
         }
         ?>
         <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->

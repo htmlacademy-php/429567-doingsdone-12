@@ -40,4 +40,6 @@ $array_info_task = [
     ]
 ];
 
+$timeleft = 24;
+
 ?>
