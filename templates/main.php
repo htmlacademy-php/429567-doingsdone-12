@@ -1,15 +1,3 @@
-<?php
-function countTask ($arrayCountTask, $name) {
-    $index = 0;
-    foreach ($arrayCountTask as $task) {
-        if($task['category'] == $name) {
-            $index++;
-        }
-    }
-    return $index;
-}
-?>
-
 <section class='content__side'>
     <h2 class='content__side-heading'>Проекты</h2>
 
@@ -19,7 +7,7 @@ function countTask ($arrayCountTask, $name) {
             $index = 0;
             while($index < count($array_projects)) {?>
             <li class="main-navigation__list-item">
-                <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($array_projects[$index]);?>></a>
+                <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($array_projects[$index]);?></a>
                 <span class="main-navigation__list-item-count"><?= countTask($array_info_task, $array_projects[$index]);?></span>
             </li>
             <?php
@@ -62,23 +50,23 @@ function countTask ($arrayCountTask, $name) {
             if($value['status'] == true && $show_complete_tasks == 0) {
                 continue;
             }
-            ?>
-            <tr class="tasks__item task">
-                <td class='task__select <?php
-                if($value['status'] == true):?>task--completed<?php endif; ?>'>
-                    <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                        <span class="checkbox__text"><?= htmlspecialchars($value['task']);?></span>
-                    </label>
-                </td>
+            $datestart = dateLeft ($value['date_start']);
 
-                <td class="task__file">
-                    <a class="download-link" href="#">Home.psd</a>
-                </td>
+        ?>
+        <tr class="tasks__item task <?php if ($datestart !=false && $datestart < $timeleft):?>task--important<?php endif; ?>">
+            <td class='task__select <?php if($value['status'] == true):?>task--completed<?php endif; ?>'>
+                <label class="checkbox task__checkbox">
+                    <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                    <span class="checkbox__text"><?= htmlspecialchars($value['task']);?></span>
+                </label>
+            </td>
 
-                <td class="task__date"><?= htmlspecialchars($value['date_start']);?></td>
-            </tr>
-            <?php
+            <td class="task__file">
+                <a class="download-link" href="#">Home.psd</a>
+            </td>
+                <td class="task__date "><?= htmlspecialchars($value['date_start']);?></td>
+        </tr>
+        <?php
         }
         ?>
         <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
