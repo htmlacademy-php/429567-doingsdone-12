@@ -4,15 +4,13 @@
     <nav class="main-navigation">
         <ul class="main-navigation__list">
             <?php
-            $index = 0;
-            while($index < count($array_projects)) {?>
+            foreach ($array_projects as $array_item) {?>
             <li class="main-navigation__list-item">
-                <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($array_projects[$index]);?></a>
-                <span class="main-navigation__list-item-count"><?= countTask($array_info_task, $array_projects[$index]);?></span>
+                <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($array_item['project']);?></a>
+                <span class="main-navigation__list-item-count"><?= countTask($array_info_task, $array_item['project']);?></span>
             </li>
             <?php
-            $index++;
-            } ?>
+            }?>
         </ul>
     </nav>
 
