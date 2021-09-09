@@ -4,10 +4,11 @@
     <nav class="main-navigation">
         <ul class="main-navigation__list">
             <?php
+
             foreach ($array_projects as $array_item) {?>
             <li class="main-navigation__list-item">
                 <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($array_item['project']);?></a>
-                <span class="main-navigation__list-item-count"><?= countTask($array_info_task, $array_item['project']);?></span>
+                <span class="main-navigation__list-item-count"><?= countTask($array_info_task, $array_item['id']);?></span>
             </li>
             <?php
             }?>

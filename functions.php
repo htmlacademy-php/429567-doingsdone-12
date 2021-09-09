@@ -2,10 +2,9 @@
 
 function countTask($arrayCountTask, $name)
 {
-    
     $index = 0;
     foreach ($arrayCountTask as $task) {
-        if ($task['category'] == $name) {
+        if ($task['project_id'] == $name) {
             $index++;
         }
     }
