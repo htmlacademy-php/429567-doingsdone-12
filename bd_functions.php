@@ -2,64 +2,52 @@
 $con = mysqli_connect($bd_inf['bd'], $bd_inf['user'], $bd_inf['password'], $bd_inf['bd_name']);
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
+    exit;
  }
- else {
-    $whereUserID =[
-        'userName' => 'test1'
-    ];
-    $userID = querySelect($con, "id", "users", $whereUserID);
-    $whereProjects = [
-        'user_id' => $userID[0]['id']
-    ];
-    $array_projects = querySelect($con, "*", "projects", $whereProjects);
-    $whereTasks = [
-        'user_id' => $userID[0]['id']
-    ];
-    $array_info_task_main = querySelect($con, "*", "tasks", $whereTasks);
-    if($array_projects != false) {
-        $paramGet = $_GET;
-        
-        if(isset($paramGet)){
-            switch($paramGet['category']){
-                case "projects":
-                    $whereCat = [
-                        'user_id' => $userID[0]['id'],
-                        'project_id' => $paramGet['id']
-                    ];
-                    $array_info_task = querySelect($con, "*", "tasks", $whereCat);
-                    if (empty($array_info_task)){
-                        header("HTTP/1.0 404 Not Found");
-                        exit;
-                    }
-                    break;
-                case "":
-                    $array_info_task =  $array_info_task_main;
-                    break;
-                default:
-                    header("HTTP/1.0 404 Not Found");
-                    exit;
-                
-            }
-        }
-        else {
-            $array_info_task =  $array_info_task_main;
-        }
+
+$userID = getUser($con, ['userName' => 'test1']);
+$array_projects = get_projects($con, ['user_id' => $userID[0]['id']]);
+$array_info_task_main = get_tasks($con, ['user_id' => $userID[0]['id']]);
+
+
+function sql_query_result ($db_connection, $sql){
+    $sql_result = mysqli_query($db_connection, $sql);
+    if (!$sql_result) {
+        $error = mysqli_error($db_connection);
+        print("Ошибка MySQL: " . $error);
+        return false;
     }
-            
+    return mysqli_fetch_all($sql_result, MYSQLI_ASSOC);
 }
 
-function querySelect ($con, $rows, $table, $where) {
+function getUser ($db_connection, $name){
+    $sql = querySelect("*", "users", $name);
+    return sql_query_result($db_connection, $sql);
+}
+
+function get_projects ($db_connection, $where) {
+    $sql = querySelect("*", "projects", $where);
+    return sql_query_result($db_connection, $sql);
+}
+
+function get_tasks ($db_connection, $where) {
+    $sql = querySelect("*", "tasks", $where);
+    return sql_query_result($db_connection, $sql);
+}
+
+function querySelect ($rows, $table, $where) {
     $sql = "SELECT ".$rows." FROM ".$table." WHERE ";
     foreach($where as $value=>$key){
         $sql .= $value."='".$key."' AND ";
     }
     $sql = substr($sql, 0, -5);
-    $result = mysqli_query($con, $sql);
+    return $sql;
+    /* $result = mysqli_query($con, $sql);
     if (!$result) {
         $error = mysqli_error($con);
         print("Ошибка MySQL: " . $error);
         return false;
     }
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC); */
 }
 ?>
