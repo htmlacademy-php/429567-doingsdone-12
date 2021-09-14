@@ -1,4 +1,11 @@
 <?php
+$bd_inf = [
+    'bd' => 'localhost',
+    'user' => 'mysql',
+    'password' => '',
+    'bd_name' => 'doingsdone'
+];
+
 $show_complete_tasks = rand(0, 1);
 // $array_projects = ['Входящие','Учеба','Работа','Домашние дела', 'Авто'];
 // $array_info_task = [

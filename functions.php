@@ -1,10 +1,10 @@
 <?php
 
-function countTask($arrayCountTask, $name)
+function countTask($arrayCountTask, $id)
 {
     $index = 0;
     foreach ($arrayCountTask as $task) {
-        if ($task['project_id'] == $name) {
+        if ($task['project_id'] == $id) {
             $index++;
         }
     }
