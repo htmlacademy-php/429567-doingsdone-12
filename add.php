@@ -17,6 +17,7 @@ if (isset($_POST)) {
         }
     }
 }
+$errorArray - array_filter($errorArray);
 
 function validateEmail($email){
     if (empty($email))
