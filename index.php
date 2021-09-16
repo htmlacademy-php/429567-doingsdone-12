@@ -25,9 +25,10 @@ if($array_projects != false) {
         $array_info_task =  $array_info_task_main;
     }
 }
+$side = include_template ('side.php', ['array_projects' => $array_projects, 'array_info_task' => $array_info_task, 'array_info_task_main' => $array_info_task_main, 'paramGet' => $paramGet]);
 
 $main = include_template ('main.php', ['array_projects' => $array_projects, 'array_info_task' => $array_info_task, 'array_info_task_main' => $array_info_task_main,'show_complete_tasks' => $show_complete_tasks, 'timeleft' => $timeleft, 'paramGet' => $paramGet]);
 
-$page_content = include_template ('layout.php', ['title' => "Дела в порадке", 'main' => $main]);
+$page_content = include_template ('layout.php', ['title' => "Дела в порадке",'side' => $side, 'main' => $main]);
 print($page_content);
 ?>
