@@ -22,17 +22,26 @@ function sql_query_result ($db_connection, $sql){
 
 function getUser ($db_connection, $name){
     $sql = querySelect("*", "users", $name);
-    return sql_query_result($db_connection, $sql);
+    $result = sql_query_result($db_connection, $sql);
+    if (isset($result))
+        return $result;
+    return false;
 }
 
 function get_projects ($db_connection, $where) {
     $sql = querySelect("*", "projects", $where);
-    return sql_query_result($db_connection, $sql);
+    $result = sql_query_result($db_connection, $sql);
+    if (isset($result))
+        return $result;
+    return false;
 }
 
 function get_tasks ($db_connection, $where) {
     $sql = querySelect("*", "tasks", $where);
-    return sql_query_result($db_connection, $sql);
+    $result = sql_query_result($db_connection, $sql);
+    if (isset($result))
+        return $result;
+    return false;
 }
 
 function querySelect ($rows, $table, $where) {

@@ -2,13 +2,11 @@
 require_once ('settings.php');
 
 if (isset($_POST)) {
-    $postParam = $_POST;
+    $postParam = $_POST;;
     $errorArray =[];
-<<<<<<< HEAD
-    
     foreach($postParam as $key => $value) {
-        if ($key == "email") {
-            $errorArray[$key] = validateEmail($value);
+        if ($key == "name") {
+            $errorArray[$key] = validateName($value);
         }
         if($key == "date"){
             $errorArray[$key] = validateDate($value);       
@@ -18,18 +16,22 @@ if (isset($_POST)) {
         }
     }
 }
-$errorArray - array_filter($errorArray);
+$errorArray = array_filter($errorArray);
+echo "<pre>";
+var_dump($errorArray);
+echo "</pre>";
 
-function validateEmail($email){
-    if (empty($email))
+function validateName($name){
+    $name = trim($name);
+    if ($name == ""){
         return "Пустое поле";
-    if (!filter_var($value, FILTER_VALIDATE_EMAIL))
-        return "Введите корректный Email";
+    }
 }
 
 function validateDate($date){
-    if (empty($date))
+    if ($date == ""){
         return "Пустое поле";
+    }
     if (is_date_valid($date) == false)
         return "Неверный формат даты";
     $todayFormat = new DateTime("now");
@@ -41,16 +43,12 @@ function validateDate($date){
     //return $result;
 }
 
-function validateProject($project) {
-    $result = get_projects($con, ['project' => $project]);
+function validateProject($projectID) {
+    if ($projectID == "")
+        return "Пустое поле";
+    $result = get_projects($con, ['id' => $projectID]);
     if(!isset($result))
         return "Не корректный проект - мухлюете!!!";
-=======
-    if (empty($postParam['name']))
-        $errorArray['name'] = true;
-    if (empty($postParam['date']))
-        $errorArray['date'] = true;
->>>>>>> d7e2879282e2a3d4e0855f51fe359df7b1e84b14
 }
 
 $side = include_template ('side.php', ['array_projects' => $array_projects, 'array_info_task' => $array_info_task, 'array_info_task_main' => $array_info_task_main, 'paramGet' => $paramGet]);

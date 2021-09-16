@@ -5,7 +5,7 @@
     <div class="form__row">
       <label class="form__label" for="name">Название <sup>*</sup></label>
 
-      <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название">
+      <input class="form__input" type="text" name="name" id="name" value="<?= $_POST['name'];?>" placeholder="Введите название">
     </div>
 
     <div class="form__row">
@@ -14,7 +14,7 @@
       <select class="form__input form__input--select" name="project" id="project">
       <?php
       foreach ($array_projects as $item) {?>
-        <option value=""><?= $item['project']?></option>
+        <option value="<?= $item['id']?>"><?= $item['project']?></option>
         <?php
       }
       ?>
@@ -25,7 +25,7 @@
     <div class="form__row">
       <label class="form__label" for="date">Дата выполнения</label>
 
-      <input class="form__input form__input--date" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+      <input class="form__input form__input--date" type="text" name="date" id="date" value="<?= $_POST['date'];?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
     </div>
 
     <div class="form__row">
