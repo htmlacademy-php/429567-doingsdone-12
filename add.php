@@ -4,6 +4,7 @@ require_once ('settings.php');
 if (isset($_POST)) {
     $postParam = $_POST;
     $errorArray =[];
+<<<<<<< HEAD
     
     foreach($postParam as $key => $value) {
         if ($key == "email") {
@@ -44,6 +45,12 @@ function validateProject($project) {
     $result = get_projects($con, ['project' => $project]);
     if(!isset($result))
         return "Не корректный проект - мухлюете!!!";
+=======
+    if (empty($postParam['name']))
+        $errorArray['name'] = true;
+    if (empty($postParam['date']))
+        $errorArray['date'] = true;
+>>>>>>> d7e2879282e2a3d4e0855f51fe359df7b1e84b14
 }
 
 $side = include_template ('side.php', ['array_projects' => $array_projects, 'array_info_task' => $array_info_task, 'array_info_task_main' => $array_info_task_main, 'paramGet' => $paramGet]);
