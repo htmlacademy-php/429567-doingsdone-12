@@ -1,9 +1,10 @@
 <?php
 require_once ('settings.php');
-
-if (isset($_POST)) {
-    $postParam = $_POST;;
-    $errorArray =[];
+$errorArray =[];
+$index = true;
+if (isset($_POST['add'])) {
+    $postParam = $_POST;
+    $index = false;
     foreach($postParam as $key => $value) {
         if ($key == "name") {
             $errorArray[$key] = validateName($value);
@@ -17,9 +18,26 @@ if (isset($_POST)) {
     }
 }
 $errorArray = array_filter($errorArray);
-echo "<pre>";
-var_dump($errorArray);
-echo "</pre>";
+$file_path = null;
+if(count($errorArray) == 0 && $index == false){
+    $sendArray = [];
+    $file = $_FILES['file'];
+    if($file['name'] !== "") {
+        $file_path = __DIR__ . "\\".$file['name'];
+        move_uploaded_file($file['tmp_name'], $file_path);
+        
+    }
+    $sendArray = [
+        'task' => $postParam['name'],
+        'date_end' => $postParam['date'],
+        'fileDir' => $file_path,
+        'project_id' => $postParam['project'],
+        'user_id' => 1,
+        'status' => 0
+    ];
+    $con = connectToDB($bd_inf);
+    $resultAdd = add_tasks($con, $sendArray);
+}
 
 function validateName($name){
     $name = trim($name);
@@ -46,6 +64,7 @@ function validateDate($date){
 function validateProject($projectID) {
     if ($projectID == "")
         return "Пустое поле";
+    $con = connectToDB($bd_inf);
     $result = get_projects($con, ['id' => $projectID]);
     if(!isset($result))
         return "Не корректный проект - мухлюете!!!";
@@ -53,7 +72,7 @@ function validateProject($projectID) {
 
 $side = include_template ('side.php', ['array_projects' => $array_projects, 'array_info_task' => $array_info_task, 'array_info_task_main' => $array_info_task_main, 'paramGet' => $paramGet]);
 
-$main = include_template ('add-task.php', ['array_projects' => $array_projects, 'array_info_task' => $array_info_task, 'array_info_task_main' => $array_info_task_main,'show_complete_tasks' => $show_complete_tasks, 'timeleft' => $timeleft, 'paramGet' => $paramGet]);
+$main = include_template ('add-task.php', ['array_projects' => $array_projects, 'array_info_task' => $array_info_task, 'array_info_task_main' => $array_info_task_main,'show_complete_tasks' => $show_complete_tasks, 'timeleft' => $timeleft, 'paramGet' => $paramGet, 'errorArray' => $errorArray]);
 
 $page_content = include_template ('layout.php', ['title' => "Добавить задачу",'side' => $side, 'main' => $main]);
 print($page_content);

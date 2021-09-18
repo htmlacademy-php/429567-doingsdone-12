@@ -3,15 +3,16 @@
 
   <form class="form"  action="add.php" method="post" enctype="multipart/form-data" autocomplete="off">
     <div class="form__row">
-      <label class="form__label" for="name">Название <sup>*</sup></label>
-
-      <input class="form__input" type="text" name="name" id="name" value="<?= $_POST['name'];?>" placeholder="Введите название">
+      <label class="form__label" for="name">Название<sup>*</sup></label>
+      
+      <input class="form__input<?php if(isset($errorArray['name'])):?> form__input--error<?php endif;?>" type="text" name="name" id="name" value="<?= $_POST['name'];?>" placeholder="Введите название">
+      <?php if(isset($errorArray['name'])):?><p class="form__message"><?= $errorArray['name']?> </p><?php endif;?>
     </div>
 
     <div class="form__row">
       <label class="form__label" for="project">Проект <sup>*</sup></label>
 
-      <select class="form__input form__input--select" name="project" id="project">
+      <select class="form__input form__input--select<?php if(isset($errorArray['project'])):?> form__input--error<?php endif;?>" name="project" id="project">
       <?php
       foreach ($array_projects as $item) {?>
         <option value="<?= $item['id']?>"><?= $item['project']?></option>
@@ -20,12 +21,14 @@
       ?>
       
       </select>
+      <?php if(isset($errorArray['project'])):?><p class="form__message"><?= $errorArray['project']?> </p><?php endif;?>
     </div>
 
     <div class="form__row">
       <label class="form__label" for="date">Дата выполнения</label>
 
-      <input class="form__input form__input--date" type="text" name="date" id="date" value="<?= $_POST['date'];?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+      <input class="form__input form__input--date<?php if(isset($errorArray['date'])):?> form__input--error<?php endif;?>" type="text" name="date" id="date" value="<?= $_POST['date'];?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+      <?php if(isset($errorArray['project'])):?><p class="form__message"><?= $errorArray['project']?> </p><?php endif;?>
     </div>
 
     <div class="form__row">
@@ -41,7 +44,7 @@
     </div>
 
     <div class="form__row form__row--controls">
-      <input class="button" type="submit" name="" value="Добавить">
+      <input class="button" type="submit" name="add" value="Добавить">
     </div>
   </form>
 </main>

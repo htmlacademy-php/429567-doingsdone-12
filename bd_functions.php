@@ -1,5 +1,10 @@
 <?php
-$con = mysqli_connect($bd_inf['bd'], $bd_inf['user'], $bd_inf['password'], $bd_inf['bd_name']);
+function connectToDB($bd_inf) {
+    static $link;
+    return !isset($link) ? $link = mysqli_connect($bd_inf['bd'], $bd_inf['user'], $bd_inf['password'], $bd_inf['bd_name']) : $link; 
+}
+
+$con = connectToDB($bd_inf);
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
     exit;
@@ -44,6 +49,14 @@ function get_tasks ($db_connection, $where) {
     return false;
 }
 
+function add_tasks ($db_connection, $arrayValues) {
+    $sql = queryAdd("tasks", $arrayValues);
+    $result = sql_query_result($db_connection, $sql);
+    if (isset($result))
+        return $result;
+    return false;
+}
+
 function querySelect ($rows, $table, $where) {
     $sql = "SELECT ".$rows." FROM ".$table." WHERE ";
     foreach($where as $value=>$key){
@@ -58,5 +71,15 @@ function querySelect ($rows, $table, $where) {
         return false;
     }
     return mysqli_fetch_all($result, MYSQLI_ASSOC); */
+}
+
+function queryAdd ($table, $arrayValues) {
+    $sql = "INSERT INTO ".$table." SET ";
+    foreach($arrayValues as $key=>$value){
+        $sql .= $key."='".$value."', ";
+    
+    }
+    $sql = substr($sql, 0, -2);
+    return $sql;
 }
 ?>
