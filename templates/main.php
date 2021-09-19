@@ -41,7 +41,7 @@
             </td>
 
             <td class="task__file">
-                <a class="download-link" href="#">Home.psd</a>
+                <a class="download-link" href="<?= $value['fileDir']?>">Home.psd</a>
             </td>
                 <td class="task__date "><?= htmlspecialchars($value['date_start']);?></td>
         </tr>
