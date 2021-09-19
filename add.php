@@ -13,7 +13,7 @@ if (isset($_POST['add'])) {
             $errorArray[$key] = validateDate($value);       
         }
         if($key == 'project') {
-            $errorArray[$key] = validateProject($value);
+            $errorArray[$key] = validateProject($con, $value);
         }
     }
 }
@@ -30,13 +30,19 @@ if(count($errorArray) == 0 && $index == false){
     $sendArray = [
         'task' => $postParam['name'],
         'date_end' => $postParam['date'],
-        'fileDir' => $file_path,
+        'fileDir' => htmlspecialchars($file_path),
         'project_id' => $postParam['project'],
         'user_id' => 1,
         'status' => 0
     ];
-    $con = connectToDB($bd_inf);
     $resultAdd = add_tasks($con, $sendArray);
+    if($resultAdd) {
+        ob_start();
+        $new_url = 'http://localhost/?file='.$file['name'];
+        header('Location: '.$new_url);
+        ob_end_flush();
+        }
+    else print_r("Ошибка добавления");
 }
 
 function validateName($name){
@@ -61,10 +67,9 @@ function validateDate($date){
     //return $result;
 }
 
-function validateProject($projectID) {
+function validateProject($con, $projectID) {
     if ($projectID == "")
         return "Пустое поле";
-    $con = connectToDB($bd_inf);
     $result = get_projects($con, ['id' => $projectID]);
     if(!isset($result))
         return "Не корректный проект - мухлюете!!!";
