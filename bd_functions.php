@@ -1,15 +1,4 @@
 <?php
-$con = mysqli_connect($bd_inf['bd'], $bd_inf['user'], $bd_inf['password'], $bd_inf['bd_name']);
-if ($con == false) {
-    print("Ошибка подключения: " . mysqli_connect_error());
-    exit;
- }
-
-$userID = getUser($con, ['userName' => 'test1']);
-$array_projects = get_projects($con, ['user_id' => $userID[0]['id']]);
-$array_info_task_main = get_tasks($con, ['user_id' => $userID[0]['id']]);
-
-
 function sql_query_result ($db_connection, $sql){
     $sql_result = mysqli_query($db_connection, $sql);
     if (!$sql_result) {
@@ -19,20 +8,39 @@ function sql_query_result ($db_connection, $sql){
     }
     return mysqli_fetch_all($sql_result, MYSQLI_ASSOC);
 }
+function sql_query_resultAdd ($db_connection, $sql){
+    $sql_result = mysqli_query($db_connection, $sql);
+    return $sql_result;
+}
 
 function getUser ($db_connection, $name){
     $sql = querySelect("*", "users", $name);
-    return sql_query_result($db_connection, $sql);
+    $result = sql_query_result($db_connection, $sql);
+    if (isset($result))
+        return $result;
+    return false;
 }
 
 function get_projects ($db_connection, $where) {
     $sql = querySelect("*", "projects", $where);
-    return sql_query_result($db_connection, $sql);
+    $result = sql_query_result($db_connection, $sql);
+    if (isset($result))
+        return $result;
+    return false;
 }
 
 function get_tasks ($db_connection, $where) {
     $sql = querySelect("*", "tasks", $where);
-    return sql_query_result($db_connection, $sql);
+    $result = sql_query_result($db_connection, $sql);
+    if (isset($result))
+        return $result;
+    return false;
+}
+
+function add_tasks ($db_connection, $arrayValues) {
+    $sql = queryAdd("tasks", $arrayValues);
+    $result = sql_query_resultAdd($db_connection, $sql);
+    return $result;
 }
 
 function querySelect ($rows, $table, $where) {
@@ -49,5 +57,15 @@ function querySelect ($rows, $table, $where) {
         return false;
     }
     return mysqli_fetch_all($result, MYSQLI_ASSOC); */
+}
+
+function queryAdd ($table, $arrayValues) {
+    $sql = "INSERT INTO ".$table." SET ";
+    foreach($arrayValues as $key=>$value){
+        $sql .= $key."='".$value."', ";
+    
+    }
+    $sql = substr($sql, 0, -2);
+    return $sql;
 }
 ?>
