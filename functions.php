@@ -53,4 +53,19 @@ function validateProject($con, $projectID) {
     if(count($result) == 0)
         return "Не корректный проект - мухлюете!!!";
 }
+
+function validateEmail($con, $email){
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return 'E-mail введён некорректно';
+    }
+    $result = getUser($con, ['email' => $email]);
+    if (count($result) > 0)
+        return "Такой Email уже существует";
+}
+
+function validatePassword($pas) {
+    $pas = trim($pas);
+    if(strlen($pas) == 0 || strlen($pas) < 6)
+        return "Пароль пустой или меньше 6 символов";
+}
 ?>
