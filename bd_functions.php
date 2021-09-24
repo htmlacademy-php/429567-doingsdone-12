@@ -13,8 +13,8 @@ function sql_query_resultAdd ($db_connection, $sql){
     return $sql_result;
 }
 
-function getUser ($db_connection, $name){
-    $sql = querySelect("*", "users", $name);
+function getUser ($db_connection, $where){
+    $sql = querySelect("*", "users", $where);
     $result = sql_query_result($db_connection, $sql);
     if (isset($result))
         return $result;
@@ -43,6 +43,12 @@ function add_tasks ($db_connection, $arrayValues) {
     return $result;
 }
 
+function add_user ($db_connection, $arrayValues) {
+    $sql = queryAdd("users", $arrayValues);
+    $result = sql_query_resultAdd($db_connection, $sql);
+    return $result;
+}
+
 function querySelect ($rows, $table, $where) {
     $sql = "SELECT ".$rows." FROM ".$table." WHERE ";
     foreach($where as $value=>$key){
@@ -50,13 +56,6 @@ function querySelect ($rows, $table, $where) {
     }
     $sql = substr($sql, 0, -5);
     return $sql;
-    /* $result = mysqli_query($con, $sql);
-    if (!$result) {
-        $error = mysqli_error($con);
-        print("Ошибка MySQL: " . $error);
-        return false;
-    }
-    return mysqli_fetch_all($result, MYSQLI_ASSOC); */
 }
 
 function queryAdd ($table, $arrayValues) {

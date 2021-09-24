@@ -24,9 +24,9 @@
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <p>Константин</p>
+                        <a href="reg.php">Регистрация</a>
 
-                        <a href="#">Выйти</a>
+                        <!-- <a href="#">Выйти</a> -->
                     </div>
                 </div>
             </div>
